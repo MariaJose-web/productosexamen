@@ -7,43 +7,40 @@ function FormularioProducto() {
     const [precio, setPrecio] = useState('');
     const [mensaje, setMensaje] = useState('');
 
+    const registrarProducto = (e) => {
+        // Evita que la página se recargue al enviar el formulario
+        e.preventDefault();
 
+        // Creamos el objeto con los datos (coincidiendo con lo que espera tu API)
+        const nuevoProducto = {
+            nombre: nombre,
+            precio: Number(precio) // Nos aseguramos de enviar el precio como número
+        };
 
-
-        const registrarProducto = (e) => {
-            // Evita que la página se recargue al enviar el formulario
-            e.preventDefault();
-
-            // Creamos el objeto con los datos (coincidiendo con lo que espera tu API)
-            const nuevoProducto = {
-                nombre: nombre,
-                precio: Number(precio) // Nos aseguramos de enviar el precio como número
-            };
-
-            // Hacemos la petición POST
-            fetch(URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json' // Indicamos al servidor que enviamos un JSON
-                },
-                body: JSON.stringify(nuevoProducto) // Convertimos el objeto a texto JSON
+        // Hacemos la petición POST
+        fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Indicamos al servidor que enviamos un JSON
+            },
+            body: JSON.stringify(nuevoProducto) // Convertimos el objeto a texto JSON
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Error al guardar el producto');
+                }
+                return response.json();
             })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Error al guardar el producto');
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    setMensaje('¡Producto añadido con éxito!');
-                    // Limpiamos los campos del formulario
-                    setNombre('');
-                    setPrecio('');
-                })
-                .catch((error) => {
-                    console.error('Hubo un problema:', error);
-                    setMensaje('Error de conexión con el servidor');
-                });
+            .then((data) => {
+                setMensaje('¡Producto añadido con éxito!');
+                // Limpiamos los campos del formulario
+                setNombre('');
+                setPrecio('');
+            })
+            .catch((error) => {
+                console.error('Hubo un problema:', error);
+                setMensaje('Error de conexión con el servidor');
+            });
 
     }
 
@@ -53,9 +50,11 @@ function FormularioProducto() {
                 <h2>Añadir Nuevo Producto</h2>
 
                 <form onSubmit={registrarProducto}>
-                    <div>
-                        <label>Nombre del Producto:</label>
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del Producto:</label>
                         <input
+                            class="form-control"
+                            placeholder='Nombre Producto'
                             type="text"
                             value={nombre}
                             onChange={(e) => setNombre(e.target.value)}
@@ -63,9 +62,11 @@ function FormularioProducto() {
                         />
                     </div>
 
-                    <div>
-                        <label>Precio (€):</label>
+                    <div class="mb-3">
+                        <label class="form-label">Precio (€):</label>
                         <input
+                            class="form-control"
+                            placeholder='Precio Producto en euros'
                             type="number"
                             value={precio}
                             onChange={(e) => setPrecio(e.target.value)}
@@ -73,7 +74,7 @@ function FormularioProducto() {
                         />
                     </div>
 
-                    <button type="submit">
+                    <button class="btn btn-outline-info" type="submit">
                         Guardar Producto
                     </button>
                 </form>

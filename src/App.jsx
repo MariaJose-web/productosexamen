@@ -4,7 +4,7 @@ import ListaProductos from './components/ListaProductos';
 import FormularioProducto from './components/FormularioProductos';
 
 function App() {
- 
+
   return (
     <>
       <ListaProductos></ListaProductos>

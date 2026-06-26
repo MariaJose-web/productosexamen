@@ -8,19 +8,21 @@ function ListaProductos() {
     useEffect(() => {
 
         async function recuperar() {
-             const response = await fetch(URL);
+            const response = await fetch(URL);
             const data = await response.json()
             setProductos(data);
         }
-        recuperar(); 
-}, []);
+        recuperar();
+    }, []);
     return (
         <>
             <h2>Lista de Productos</h2>
 
-            <ol>
+            <ol class="list-group list-group-numbered">
                 {productos.map((item, index) => (
-                    <li key={index}>Id {item.id}: {item.nombre} {item.precio}€</li>
+                    <li
+                        class="list-group-item"
+                        key={index}> Id {item.id}: {item.nombre} {item.precio}€</li>
                 ))}
             </ol>
         </>
