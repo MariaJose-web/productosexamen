@@ -8,22 +8,20 @@ function FormularioProducto() {
     const [mensaje, setMensaje] = useState('');
 
     const registrarProducto = (e) => {
-        // Evita que la página se recargue al enviar el formulario
         e.preventDefault();
 
-        // Creamos el objeto con los datos (coincidiendo con lo que espera tu API)
         const nuevoProducto = {
             nombre: nombre,
-            precio: Number(precio) // Nos aseguramos de enviar el precio como número
+            precio: Number(precio) 
         };
 
         // Hacemos la petición POST
         fetch(URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Indicamos al servidor que enviamos un JSON
+                'Content-Type': 'application/json' 
             },
-            body: JSON.stringify(nuevoProducto) // Convertimos el objeto a texto JSON
+            body: JSON.stringify(nuevoProducto) 
         })
             .then((response) => {
                 if (!response.ok) {
@@ -33,9 +31,9 @@ function FormularioProducto() {
             })
             .then((data) => {
                 setMensaje('¡Producto añadido con éxito!');
-                // Limpiamos los campos del formulario
                 setNombre('');
                 setPrecio('');
+                window.location.reload(); 
             })
             .catch((error) => {
                 console.error('Hubo un problema:', error);
